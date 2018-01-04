@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- scan="true"    当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 -->
+<!--  scanPeriod="30 seconds"   设置每30秒自动扫描,若没有指定具体单位则以milliseconds为标准(单位:milliseconds, seconds, minutes or hours)  -->
+<!-- debug="false"当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
+<configuration debug="true" scan="true" scanPeriod="60 seconds">
+    <!-- property：用来定义变量值的标签，<property> 有两个属性，name和value。通过<property>定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。-->
+    <!-- 例如使用<property>定义上下文名称，然后在<contentName>设置logger上下文时使用。 -->
+    
+    <property resource="logback.properties"></property>
+    
+
+    <!-- contextName：每个logger都关联到logger上下文，默认上下文名称为“default”。-->
+    <!-- 但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。 -->
+    <contextName>shopping-mall</contextName>
+
+
+    <!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <!-- 格式化输出：%d表示日期,%thread表示线程名,%-5level：级别从左显示5个字符宽度,%msg：日志消息,%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    	<encoding>UTF-8</encoding>  
+    </appender>
+
+    <!-- 文件输出：file -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+   	 	<!-- LevelFilter:级别过滤器,日志级别等于配置级别 -->
+   	 	<!-- ThresholdFilter:临界值过滤器,过滤掉低于指定临界值的日志 -->
+   	 	<!-- 自定义过滤器：实现ch.qos.logback.core.filter.Filter -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 设置过滤级别 -->
+            <level>${logback.output.file.level}</level>
+            <!-- DENY:日志将立即被抛弃不再经过其他过滤器 ,NEUTRAL:有序列表里的下个过滤器过接着处理日志,ACCEPT:日志会被立即处理，不再经过剩余过滤器-->
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- append是否接着上次写文件结尾继续写，默认为true -->  
+	    <append>true</append>  
+	    <encoding>UTF-8</encoding> 
+    	<!-- 日志文件位置 -->
+        <file>${logback.file.path}/loback—shopping.log</file>
+        <!-- 根据时间来制定滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${logback.file.path}/logback-shopping.%d{yyyyMMdd}.log</FileNamePattern>
+            <!-- 多久后自动清楚旧的日志文件,单位:月 -->
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+          <maxFileSize>1MB</maxFileSize>
+        </triggeringPolicy>
+        <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- TRACE < DEBUG < INFO <  WARN < ERROR -->
+    <root level="${logback.output.main.level}">
+    	<appender-ref ref="console" />
+    	<appender-ref ref="file" />
+    </root>
+</configuration>
