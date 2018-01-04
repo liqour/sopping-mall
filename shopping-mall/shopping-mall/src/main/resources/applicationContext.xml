@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+                      
+    <!-- 引入配置文件 -->
+	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean> -->
+	<!-- 引入properties配置文件 -->  
+     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+               <value>classpath:jdbc.properties</value>
+               <value>classpath:redis.properties</value>
+                <!--要是有多个配置文件，只需在这里继续添加即可 -->
+            </list>
+        </property>
+    </bean>
+      
+    <!-- 数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxActive" value="${maxActive}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${maxWait}"></property>
+	</bean>
+	
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/shop/entity/mapper/*.xml"></property>
+		<property name="typeAliasesPackage" value="com.shop.entity"></property>
+	</bean>
+	<!-- 自动扫描 -->
+	<!-- <context:component-scan base-package="com.shop.entity" /> -->
+    <context:component-scan base-package="com.shop.service" />
+    <context:component-scan base-package="com.shop.annotation" />
+    <context:component-scan base-package="com.shop.redis" />
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.shop.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- Redis和缓存配置开始 -->  
+    <!-- jedis 配置 -->
+ 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--最大连接数 -->
+        <property name="maxTotal" value="${redis.maxActive}" />
+        <!-- 最大空闲数，数据库连接的最大空闲时间  --> 
+        <property name="maxIdle" value="${redis.maxIdle}" />
+         <!--最大等待时间 -->
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <!--定时对线程池中空闲的链接进行validateObject校验 -->
+        <property name="testWhileIdle" value="true" /> 
+        <property name="testOnBorrow" value="true" />
+        <!--在进行returnObject对返回的connection进行validateObject校验 -->
+        <property name="testOnReturn" value="true" />
+    </bean>
+
+	<!-- redis连接工厂 -->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    	<!-- p:host-name="127.0.0.1" p:port="6379" p:pool-config-ref="jedisPoolConfig" -->
+    	<property name="hostName" value="${redis.host}"></property>  
+        <property name="port" value="${redis.port}"></property>  
+        <!-- <property name="password" value="${redis.password}"></property> -->
+        <property name="timeout" value="${redis.timeout}" ></property>
+        <property name="poolConfig" ref="jedisPoolConfig"></property>
+    </bean>
+
+	<!-- redis连接池 -->  
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">  
+    	<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+    	<constructor-arg name="host" value="${redis.host}" />
+    	<constructor-arg name="port" value="${redis.port}" />
+        <constructor-arg name="timeout" value="${redis.timeout}" />
+    </bean>
+
+	<!-- redis操作模板，这里采用尽量面向对象的模板 --> 
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory"   ref="connectionFactory" />
+        <!-- 如果不配置Serializer,那么存储的时候只能使用String,如果用对象类型存储,那么会提示错误 can't cast to String！！！-->
+        <property name="keySerializer">  
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />  
+        </property>  
+        <property name="valueSerializer">  
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />  
+        </property>
+    </bean>
+    <!-- Redis和缓存配置结束 -->
+
+</beans>

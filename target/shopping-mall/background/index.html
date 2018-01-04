@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>琴娃娃</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/materialize/css/materialize.min.css" media="screen,projection" />
+    <!-- Bootstrap Styles-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="wrapper">
+    <!-- 头部开始 -->
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle waves-effect waves-dark" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand waves-effect waves-dark" href="index.html"><i class="large material-icons">track_changes</i> <strong>琴娃娃</strong></a>
+
+            <div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown4"><i class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li>
+                <a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown3"><i class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li>
+                <a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown2"><i class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li>
+                <a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>张三</b> <i class="material-icons right">arrow_drop_down</i></a>
+            </li>
+        </ul>
+    </nav>
+    <!-- 下拉 -->
+    <!-- 个人信息 -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li>
+            <a href="#"><i class="fa fa-user fa-fw"></i>我的资料</a>
+        </li>
+        <li onclick = "test()">
+            <a href="#"><i class="fa fa-gear fa-fw"></i>设置</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-sign-out fa-fw"></i> 注销</a>
+        </li>
+    </ul>
+    <!-- 即时消息 -->
+    <ul id="dropdown2" class="dropdown-content w250">
+        <li>
+            <a href="#">
+            <div>
+                <i class="fa fa-comment fa-fw"></i>新消息
+                <span class="pull-right text-muted small">4 min</span>
+            </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+            <div>
+                <i class="fa fa-twitter fa-fw"></i>3 新关注
+                <span class="pull-right text-muted small">12 min</span>
+            </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+            <div>
+                <i class="fa fa-envelope fa-fw"></i>留言发送
+                <span class="pull-right text-muted small">4 min</span>
+            </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+            <div>
+                <i class="fa fa-tasks fa-fw"></i>新任务
+                <span class="pull-right text-muted small">4 min</span>
+            </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+            <div>
+                <i class="fa fa-upload fa-fw"></i>服务器重新启动
+                <span class="pull-right text-muted small">4 min</span>
+            </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a class="text-center" href="#">
+                <strong>查看所有警报</strong>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- 任务 -->
+    <ul id="dropdown3" class="dropdown-content dropdown-tasks w250">
+        <li>
+            <a href="#">
+                <div>
+                    <p>
+                        <strong>任务 1</strong>
+                        <span class="pull-right text-muted">60% 完成</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                            <span class="sr-only">60% Complete (success)</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+                <div>
+                    <p>
+                        <strong>任务 2</strong>
+                        <span class="pull-right text-muted">28% 完成</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+                            <span class="sr-only">28% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+                <div>
+                    <p>
+                        <strong>任务 3</strong>
+                        <span class="pull-right text-muted">60% 完成</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                            <span class="sr-only">60% Complete (warning)</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+                <div>
+                    <p>
+                        <strong>任务 4</strong>
+                        <span class="pull-right text-muted">85% 完成</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                            <span class="sr-only">85% Complete (danger)</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+    </ul>
+    <!-- 邮件 -->
+    <ul id="dropdown4" class="dropdown-content dropdown-tasks w250 taskList">
+        <li>
+            <a href="#">
+            <div>
+                <strong>约翰</strong>
+                <span class="pull-right text-muted">
+                                        <em>今天</em>
+                                    </span>
+            </div>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+            <div>
+                <strong>约翰.史密斯</strong>
+                <span class="pull-right text-muted">
+                                        <em>昨天</em>
+                                    </span>
+            </div>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</p>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">
+                <div>
+                    <strong>约翰.史密斯</strong>
+                    <span class="pull-right text-muted">
+                                        <em>昨天</em>
+                                    </span>
+                </div>
+                <p>Lorem Ipsum has been the industry's standard dummy text ever since the...</p>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a class="text-center" href="#">
+                <strong>阅读所有消息</strong>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- 头部结束 -->
+    <!-- 侧边栏开始 -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li>
+                    <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i>仪表板</a>
+                </li>
+                <li>
+                    <a href="ui-elements.html" class="waves-effect waves-dark"><i class="fa fa-desktop"></i>UI元素</a>
+                </li>
+                <li>
+                    <a href="chart.html" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i>图表</a>
+                </li>
+                <li>
+                    <a href="tab-panel.html" class="waves-effect waves-dark"><i class="fa fa-qrcode"></i>标签和面板</a>
+                </li>
+
+                <li>
+                    <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i>响应表</a>
+                </li>
+                <li>
+                    <a href="form.html" class="waves-effect waves-dark"><i class="fa fa-edit"></i>表单</a>
+                </li>
+                <li>
+                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>多层次下拉<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                    
+                    
+                        <li>
+                            <a href="#">二级链接</a>
+                        </li>
+                        <li>
+                            <a href="#">二级链接</a>
+                        </li>
+                        <li>
+                            <a href="#">二级链接<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="#">三级链接</a>
+                                </li>
+                                <li>
+                                    <a href="#">三级链接</a>
+                                </li>
+                                <li>
+                                    <a href="#">三级链接</a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="empty.html" class="waves-effect waves-dark"><i class="fa fa-fw fa-file"></i>空页</a>
+                </li>
+                <li>
+                    <a  onclick="jump('goodsInfo')" class="waves-effect waves-dark"><i class="fa icon-circle"></i>商品管理</a>
+                </li>
+                <li>
+                    <a  onclick="jump('upload')" class="waves-effect waves-dark"><i class="fa icon-circle"></i>上传下载</a>
+                </li>
+                <li>
+                    <a  onclick="jump('Md5')" class="waves-effect waves-dark"><i class="fa icon-circle"></i>MD5解密</a>
+                </li>
+                <li>
+                    <a  onclick="send('test')" class="waves-effect waves-dark"><i class="fa icon-circle"></i>消息测试</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- 侧边栏结束 -->
+    <!-- 主页面开始 -->
+    <div id="page-wrapper"></div>
+	<!-- 主页面结束 -->
+</div>
+
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="assets/js/jquery-1.10.2.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/materialize/js/materialize.min.js"></script>
+<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/easypiechart.js"></script>
+<script src="assets/js/custom-scripts.js"></script>
+<script src="js/base.js"></script>
+<script src="js/websocket.js"></script>
+<script src="js/index.js"></script>
+</body>
+
+</html>
