@@ -1,5 +1,7 @@
 /.settings/
+/shopping-mall/.settings/
 /target/
+/shopping-mall/target/
 
 # built application files
 *.apk
